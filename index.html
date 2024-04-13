@@ -1,1 +1,696 @@
-<h1>欢迎</h1>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://example.com/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>串口控制4路电机驱动(带测速)</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u8bf4\u660e";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> 串口控制4路电机驱动(带测速)
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">说明</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">简介</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">详细参数</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">入门</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">串口调试助手</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">硬件</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">控制指令</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#pwm">输出pwm</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">获取当前转速</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">获取当前位移</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">清除位移计数</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pwm_1">输出特定时间的pwm</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pwm_2">输出特定位移的pwm</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">设定转速</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">设定特定时间的转速</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">设定特定位移的转速</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">恢复出厂设置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">保存当前设置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">重启</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_16">设置波特率</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ok">设置普通命令是否返回ok</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pid">设置某通道pid和死区</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pid_1">获取某通道pid和死区</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_17">案例</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#python">python上位机</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_18">硬件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_19">软件</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#esp32">esp32小车</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_20">硬件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_21">软件</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">串口控制4路电机驱动(带测速)</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">说明</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="4">串口控制4路电机驱动(带测速)</h1>
+<h2 id="_1">简介</h2>
+<p>本产品板载mcu和4路驱动芯片RZ7899，能够通过串口发送指令的方式驱动四路直流电机并测速。 
+专门解决4wd智能小车驱动麻烦,占用io口多,占用mcu资源多的问题.<br />
+只需要一路串口,就可以替换条原来的8路pwm,4路输入捕获(测速).</p>
+<h3 id="_2">详细参数</h3>
+<ul>
+<li>尺寸:27mm*29mm</li>
+<li>工作电压范围宽 5V~18V。</li>
+<li>最大电流:2A</li>
+<li>3.3V对外供电电流:800mA</li>
+<li>串口波特率最大支持:460800(默认115200)</li>
+<li>有过热保护功能</li>
+</ul>
+<h2 id="_3">入门</h2>
+<h3 id="_4">串口调试助手</h3>
+<h4 id="_5">硬件</h4>
+<p>2串18650电池<br />
+usb转ttl:ch340<br />
+4wd小车 
+光电码盘与传感器:<br />
+<img alt="alt 示意图" src="%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></p>
+<p><strong>注意：串口调试助手要勾选上发送新行</strong></p>
+<p><img alt="alt 串口调试助手" src="%E4%B8%B2%E5%8F%A3%E8%B0%83%E8%AF%95%E5%8A%A9%E6%89%8B.png" /></p>
+<p><img alt="alt ch340测试" src="ch340%E6%B5%8B%E8%AF%95.jpg" /></p>
+<h2 id="_6">控制指令</h2>
+<ul>
+<li>串口默认波特率115200 8位数据位  1位停止位 无校验位 asiic字符串控制</li>
+<li>完整的指令以换行作为结束符</li>
+<li>指令名称与参数之间用英文冒号作分割</li>
+<li>参数之间用英文逗号作为分割</li>
+<li>不同的指令有不同的参数长度</li>
+</ul>
+<p>格式:</p>
+<pre><code> 指令名称:参数1,参数2\n
+</code></pre>
+<h3 id="pwm">输出pwm</h3>
+<p>设置4个电机的pwm占空比,频率为1k,正数为正转,负数为反转<br />
+长时间运行,但会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setOLpwm:-70,70,70,-70\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setOLpwm</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">获取当前转速</h3>
+<p>获取当前4个电机测速码盘的转速,单位(脉冲/秒),全为正,无方向.  </p>
+<p>发送:</p>
+<pre><code>getV\n
+</code></pre>
+<p>返回:</p>
+<pre><code>0,0,0,0\r\n
+</code></pre>
+<p>指令返回说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">返回</th>
+<th style="text-align: center;">返回1</th>
+<th style="text-align: center;">返回2</th>
+<th style="text-align: center;">返回3</th>
+<th style="text-align: center;">返回4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">电机1速度</td>
+<td style="text-align: center;">电机2速度</td>
+<td style="text-align: center;">电机3速度</td>
+<td style="text-align: center;">电机4速度</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">获取当前位移</h3>
+<p>获取当前4个电机测速码盘的脉冲计数,单位(个脉冲),全为正,无方向.  </p>
+<p>发送:</p>
+<pre><code>getS\n
+</code></pre>
+<p>返回:</p>
+<pre><code>0,0,0,0\r\n
+</code></pre>
+<p>指令返回说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">返回</th>
+<th style="text-align: center;">返回1</th>
+<th style="text-align: center;">返回2</th>
+<th style="text-align: center;">返回3</th>
+<th style="text-align: center;">返回4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">电机1位移</td>
+<td style="text-align: center;">电机2位移</td>
+<td style="text-align: center;">电机3位移</td>
+<td style="text-align: center;">电机4位移</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_9">清除位移计数</h3>
+<p>发送:</p>
+<pre><code>clearS\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<h3 id="pwm_1">输出特定时间的pwm</h3>
+<p>设置4个电机的pwm占空比输出一段时间后停止.<br />
+会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setOLTpwm:2000,-70,70,70,-70\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+<th style="text-align: center;">参数5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setOLTpwm</td>
+<td style="text-align: center;">时间(毫秒)</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">&gt;=0</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pwm_2">输出特定位移的pwm</h3>
+<p>设置4个电机的pwm占空比,电机转过一段距离后停止,单位(个脉冲)<br />
+会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setOLSpwm:2000,-70,70,70,-70\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+<th style="text-align: center;">参数5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setOLSpwm</td>
+<td style="text-align: center;">位移(个脉冲)</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">&gt;=0</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_10">设定转速</h3>
+<p>设置4个电机的转速,mcu会根据光电码盘测到的速度通过pid调节pwm输出,<br />
+速度至少设为5个脉冲。<br />
+长时间运行,会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setCLV:-20,20,20,-20\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setCLV</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">设定特定时间的转速</h3>
+<p>设置4个电机的转速,mcu会根据光电码盘测到的速度通过pid调节pwm输出一段时间,<br />
+速度至少设为5个脉冲。<br />
+会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setCLTV:2000,-20,20,20,-20\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+<th style="text-align: center;">参数5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setCLTV</td>
+<td style="text-align: center;">时间(毫秒)</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">&gt;=0</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">设定特定位移的转速</h3>
+<p>设置4个电机的转速,mcu会根据光电码盘测到的速度通过pid调节pwm输出一段距离,<br />
+速度至少设为5个脉冲。<br />
+长时间运行,会被其他控制pwm或速度的指令覆盖<br />
+发送:</p>
+<pre><code>setCLSV:50,-20,20,20,-20\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+<th style="text-align: center;">参数5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setCLSV</td>
+<td style="text-align: center;">位移(个脉冲)</td>
+<td style="text-align: center;">电机1pwm</td>
+<td style="text-align: center;">电机2pwm</td>
+<td style="text-align: center;">电机3pwm</td>
+<td style="text-align: center;">电机4pwm</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">&gt;=0</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+<td style="text-align: center;">-100~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">恢复出厂设置</h3>
+<p>发送:</p>
+<pre><code>factoryReset\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<h3 id="_14">保存当前设置</h3>
+<p>发送:</p>
+<pre><code>saveConfig\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<h3 id="_15">重启</h3>
+<p>发送:</p>
+<pre><code>rest\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<h3 id="_16">设置波特率</h3>
+<p>发送:</p>
+<pre><code>setBaudRate:115200\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setBaudRate</td>
+<td style="text-align: center;">波特率</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">&lt;=460800</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ok">设置普通命令是否返回ok</h3>
+<p>发送:</p>
+<pre><code>setRecOK:1\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setRecOK</td>
+<td style="text-align: center;">是否返回ok</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">1或0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pid">设置某通道pid和死区</h3>
+<p>设置某个电机的pid和死区参数,默认死区为40,只有积分项0.1</p>
+<p>发送:</p>
+<pre><code>setCPIDD:0,0.0,0.1,0,40\n
+</code></pre>
+<p>返回:</p>
+<pre><code>ok\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+<th style="text-align: center;">参数5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">setCPIDD</td>
+<td style="text-align: center;">电机编号</td>
+<td style="text-align: center;">P</td>
+<td style="text-align: center;">I</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">死区</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">0~3</td>
+<td style="text-align: center;">浮点数</td>
+<td style="text-align: center;">浮点数</td>
+<td style="text-align: center;">浮点数</td>
+<td style="text-align: center;">0~100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pid_1">获取某通道pid和死区</h3>
+<p>获取某个电机的pid和死区参数</p>
+<p>发送:</p>
+<pre><code>getCPIDD:0,\n
+</code></pre>
+<p>返回:</p>
+<pre><code>0.0,0.1,0.0,40\r\n
+</code></pre>
+<p>发送指令说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">getCPIDD</td>
+<td style="text-align: center;">电机编号</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">0~3</td>
+</tr>
+</tbody>
+</table>
+<p>指令返回说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令名称</th>
+<th style="text-align: center;">参数1</th>
+<th style="text-align: center;">参数2</th>
+<th style="text-align: center;">参数3</th>
+<th style="text-align: center;">参数4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">P</td>
+<td style="text-align: center;">I</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">死区</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_17">案例</h2>
+<h3 id="python">python上位机</h3>
+<h4 id="_18">硬件</h4>
+<p>同入门中串口调试助手的硬件</p>
+<h4 id="_19">软件</h4>
+<h3 id="esp32">esp32小车</h3>
+<h4 id="_20">硬件</h4>
+<p>合宙esp32c3开发板 
+4wd</p>
+<h4 id="_21">软件</h4>
+<p><img alt="alt esp32小车" src="esp32%E5%B0%8F%E8%BD%A6.jpg" /></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2024-04-13 02:22:06.655985+00:00
+-->

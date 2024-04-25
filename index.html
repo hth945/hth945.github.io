@@ -70,21 +70,17 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#pwm_1">输出特定时间的pwm</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#pwm_2">输出特定位移的pwm</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#_10">设定转速</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#_11">设定特定时间的转速</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_12">设定特定位移的转速</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">恢复出厂设置</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_13">恢复出厂设置</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">保存当前设置</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_14">保存当前设置</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">重启</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_15">重启</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_16">设置波特率</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">设置波特率</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#ok">设置普通命令是否返回ok</a>
     </li>
@@ -94,21 +90,21 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_17">案例</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_16">案例</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#python">python上位机</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#_18">硬件</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_17">硬件</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_19">软件</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_18">软件</a>
     </li>
         </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#esp32">esp32小车</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#_20">硬件</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_19">硬件</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_21">软件</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_20">软件</a>
     </li>
         </ul>
     </li>
@@ -161,10 +157,10 @@
 usb转ttl:ch340<br />
 4wd小车 
 光电码盘与传感器:<br />
-<img alt="alt 示意图" src="%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></p>
+<img alt="alt 示意图" src="./示意图.png" /></p>
 <p><strong>注意：串口调试助手要勾选上发送新行</strong></p>
-<p><img alt="alt 串口调试助手" src="%E4%B8%B2%E5%8F%A3%E8%B0%83%E8%AF%95%E5%8A%A9%E6%89%8B.png" /></p>
-<p><img alt="alt ch340测试" src="ch340%E6%B5%8B%E8%AF%95.jpg" /></p>
+<p><img alt="alt 串口调试助手" src="./串口调试助手.png" /></p>
+<p><img alt="alt ch340测试" src="./ch340测试.jpg" /></p>
 <h2 id="_6">控制指令</h2>
 <ul>
 <li>串口默认波特率115200 8位数据位  1位停止位 无校验位 asiic字符串控制</li>
@@ -318,46 +314,6 @@ usb转ttl:ch340<br />
 </tr>
 </tbody>
 </table>
-<h3 id="pwm_2">输出特定位移的pwm</h3>
-<p>设置4个电机的pwm占空比,电机转过一段距离后停止,单位(个脉冲)<br />
-会被其他控制pwm或速度的指令覆盖<br />
-发送:</p>
-<pre><code>setOLSpwm:2000,-70,70,70,-70\n
-</code></pre>
-<p>返回:</p>
-<pre><code>ok\r\n
-</code></pre>
-<p>发送指令说明</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">指令名称</th>
-<th style="text-align: center;">参数1</th>
-<th style="text-align: center;">参数2</th>
-<th style="text-align: center;">参数3</th>
-<th style="text-align: center;">参数4</th>
-<th style="text-align: center;">参数5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">setOLSpwm</td>
-<td style="text-align: center;">位移(个脉冲)</td>
-<td style="text-align: center;">电机1pwm</td>
-<td style="text-align: center;">电机2pwm</td>
-<td style="text-align: center;">电机3pwm</td>
-<td style="text-align: center;">电机4pwm</td>
-</tr>
-<tr>
-<td style="text-align: left;"></td>
-<td style="text-align: center;">&gt;=0</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-</tr>
-</tbody>
-</table>
 <h3 id="_10">设定转速</h3>
 <p>设置4个电机的转速,mcu会根据光电码盘测到的速度通过pid调节pwm输出,<br />
 速度至少设为5个脉冲。<br />
@@ -437,69 +393,28 @@ usb转ttl:ch340<br />
 </tr>
 </tbody>
 </table>
-<h3 id="_12">设定特定位移的转速</h3>
-<p>设置4个电机的转速,mcu会根据光电码盘测到的速度通过pid调节pwm输出一段距离,<br />
-速度至少设为5个脉冲。<br />
-长时间运行,会被其他控制pwm或速度的指令覆盖<br />
-发送:</p>
-<pre><code>setCLSV:50,-20,20,20,-20\n
-</code></pre>
-<p>返回:</p>
-<pre><code>ok\r\n
-</code></pre>
-<p>发送指令说明</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">指令名称</th>
-<th style="text-align: center;">参数1</th>
-<th style="text-align: center;">参数2</th>
-<th style="text-align: center;">参数3</th>
-<th style="text-align: center;">参数4</th>
-<th style="text-align: center;">参数5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">setCLSV</td>
-<td style="text-align: center;">位移(个脉冲)</td>
-<td style="text-align: center;">电机1pwm</td>
-<td style="text-align: center;">电机2pwm</td>
-<td style="text-align: center;">电机3pwm</td>
-<td style="text-align: center;">电机4pwm</td>
-</tr>
-<tr>
-<td style="text-align: left;"></td>
-<td style="text-align: center;">&gt;=0</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-<td style="text-align: center;">-100~100</td>
-</tr>
-</tbody>
-</table>
-<h3 id="_13">恢复出厂设置</h3>
+<h3 id="_12">恢复出厂设置</h3>
 <p>发送:</p>
 <pre><code>factoryReset\n
 </code></pre>
 <p>返回:</p>
 <pre><code>ok\r\n
 </code></pre>
-<h3 id="_14">保存当前设置</h3>
+<h3 id="_13">保存当前设置</h3>
 <p>发送:</p>
 <pre><code>saveConfig\n
 </code></pre>
 <p>返回:</p>
 <pre><code>ok\r\n
 </code></pre>
-<h3 id="_15">重启</h3>
+<h3 id="_14">重启</h3>
 <p>发送:</p>
 <pre><code>rest\n
 </code></pre>
 <p>返回:</p>
 <pre><code>ok\r\n
 </code></pre>
-<h3 id="_16">设置波特率</h3>
+<h3 id="_15">设置波特率</h3>
 <p>发送:</p>
 <pre><code>setBaudRate:115200\n
 </code></pre>
@@ -638,17 +553,17 @@ usb转ttl:ch340<br />
 </tr>
 </tbody>
 </table>
-<h2 id="_17">案例</h2>
+<h2 id="_16">案例</h2>
 <h3 id="python">python上位机</h3>
-<h4 id="_18">硬件</h4>
+<h4 id="_17">硬件</h4>
 <p>同入门中串口调试助手的硬件</p>
-<h4 id="_19">软件</h4>
+<h4 id="_18">软件</h4>
 <h3 id="esp32">esp32小车</h3>
-<h4 id="_20">硬件</h4>
+<h4 id="_19">硬件</h4>
 <p>合宙esp32c3开发板 
 4wd</p>
-<h4 id="_21">软件</h4>
-<p><img alt="alt esp32小车" src="esp32%E5%B0%8F%E8%BD%A6.jpg" /></p>
+<h4 id="_20">软件</h4>
+<p><img alt="alt esp32小车" src="./esp32小车.jpg" /></p>
               
             </div>
           </div><footer>
@@ -692,5 +607,5 @@ usb转ttl:ch340<br />
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-04-13 02:22:06.655985+00:00
+Build Date UTC : 2024-04-25 09:46:15.750402+00:00
 -->
